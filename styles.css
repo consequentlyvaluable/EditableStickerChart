@@ -311,6 +311,9 @@ input[type="color"] {
 @media print {
   body {
     background: #fff;
+    color: #000;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
   }
 
   .hero,
@@ -326,10 +329,22 @@ input[type="color"] {
 
   #chartCard {
     box-shadow: none;
-    border: 1px solid var(--border);
+    border: 2px solid #000;
   }
 
   .chart-cell {
     min-height: 70px;
+    border: 2px solid #000;
+    background: #fff;
+    color: #000;
+  }
+
+  .chart-cell.filled {
+    color: var(--sticker-color, #000);
+  }
+
+  .task-label {
+    background: transparent;
+    border: 1px solid #000;
   }
 }
