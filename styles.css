@@ -9,6 +9,7 @@
   --sunny: #ffb347;
   --sky: #7dd3fc;
   --mint: #a7f3d0;
+  --sticker-color: #ffcc00;
   --shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
   --radius: 16px;
   font-family: "Inter", system-ui, -apple-system, sans-serif;
@@ -255,8 +256,23 @@ input[type="color"] {
 
 .chart-cell.filled {
   border-style: solid;
-  color: var(--sticker-color, #ffcc00);
-  background: #fff;
+  color: #0f172a;
+  background:
+    radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0)),
+    var(--sticker-color, #ffcc00);
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.12);
+}
+
+.sticker-icon {
+  display: inline-grid;
+  place-items: center;
+  padding: 0.1rem 0.3rem;
+  border-radius: 12px;
+  font-size: 1.6rem;
+  color: #0f172a;
+  background: rgba(255, 255, 255, 0.7);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.12);
+  text-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
 }
 
 .task-labels {
@@ -308,13 +324,16 @@ input[type="color"] {
 
 .preview-sticker {
   font-size: 2.2rem;
-  width: 64px;
-  height: 64px;
+  width: 72px;
+  height: 72px;
   display: grid;
   place-items: center;
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 14px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background:
+    radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.45), rgba(255, 255, 255, 0)),
+    var(--sticker-color, #ffcc00);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 14px 35px rgba(0, 0, 0, 0.2);
 }
 
 .legend {
@@ -414,7 +433,14 @@ input[type="color"] {
   }
 
   .chart-cell.filled {
-    color: var(--sticker-color, #000);
+    background:
+      radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0)),
+      var(--sticker-color, #ffcc00);
+    color: #0f172a;
+  }
+
+  .chart-cell.filled .sticker-icon {
+    background: rgba(255, 255, 255, 0.8);
   }
 
   .task-label {
