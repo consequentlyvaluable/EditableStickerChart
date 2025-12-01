@@ -38,6 +38,19 @@ const previewSticker = document.getElementById("previewSticker");
 const chartTitle = document.getElementById("chartTitle");
 const chartGoal = document.getElementById("chartGoal");
 
+function applyStickerColor() {
+  const fallbackColor = state.stickerColor || "#ffcc00";
+  document.documentElement.style.setProperty("--sticker-color", fallbackColor);
+}
+
+function setStickerContent(target) {
+  target.innerHTML = "";
+  const sticker = document.createElement("span");
+  sticker.className = "sticker-icon";
+  sticker.textContent = state.stickerSymbol || "⭐";
+  target.appendChild(sticker);
+}
+
 function loadFromStorage() {
   const saved = localStorage.getItem(storageKey);
   if (!saved) return;
@@ -148,7 +161,6 @@ function renderLabels() {
 function renderGrid() {
   chartGrid.innerHTML = "";
   chartGrid.style.gridTemplateColumns = `repeat(${state.columns}, minmax(80px, 1fr))`;
-  chartGrid.style.setProperty("--sticker-color", state.stickerColor);
 
   const totalCells = state.rows * state.columns;
   for (let index = 0; index < totalCells; index += 1) {
@@ -163,9 +175,7 @@ function renderGrid() {
 
     if (state.stickers.has(key)) {
       cell.classList.add("filled");
-      cell.textContent = state.stickerSymbol || "⭐";
-    } else {
-      cell.textContent = "";
+      setStickerContent(cell);
     }
 
     cell.addEventListener("click", () => toggleSticker(key, cell));
@@ -181,7 +191,7 @@ function toggleSticker(key, element) {
   } else {
     state.stickers.add(key);
     element.classList.add("filled");
-    element.textContent = state.stickerSymbol || "⭐";
+    setStickerContent(element);
   }
   saveToStorage();
 }
@@ -189,13 +199,13 @@ function toggleSticker(key, element) {
 function renderPreview() {
   previewChild.textContent = state.childName || "Your child";
   previewGoal.textContent = state.goal || "Earn 10 stars for a weekend treat";
-  previewSticker.textContent = state.stickerSymbol || "⭐";
-  previewSticker.style.color = state.stickerColor;
+  setStickerContent(previewSticker);
   chartTitle.textContent = `${state.childName || "Your child"}'s chart`;
   chartGoal.textContent = state.goal || "Celebrate with a small reward after filling the chart.";
 }
 
 function render() {
+  applyStickerColor();
   renderTasks();
   renderLabels();
   renderGrid();
@@ -225,6 +235,7 @@ function attachEvents() {
 
   stickerColorInput.addEventListener("input", (event) => {
     state.stickerColor = event.target.value;
+    applyStickerColor();
     renderPreview();
     renderGrid();
     saveToStorage();
