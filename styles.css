@@ -3,7 +3,7 @@
   --surface: #ffffff;
   --muted: #f5f7fb;
   --border: #e2e8f0;
-  --text: #1a202c;
+  --text: #000080;
   --muted-text: #4a5568;
   --accent: #5a67d8;
   --sunny: #ffb347;
@@ -13,7 +13,7 @@
   --shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
   --radius: 16px;
   font-family: "Inter", system-ui, -apple-system, sans-serif;
-  color: navy;
+  
 }
 
 * {
