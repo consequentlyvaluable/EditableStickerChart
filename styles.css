@@ -6,6 +6,9 @@
   --text: #1a202c;
   --muted-text: #4a5568;
   --accent: #5a67d8;
+  --sunny: #ffb347;
+  --sky: #7dd3fc;
+  --mint: #a7f3d0;
   --shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
   --radius: 16px;
   font-family: "Inter", system-ui, -apple-system, sans-serif;
@@ -80,6 +83,23 @@ h3 {
   box-shadow: var(--shadow);
   margin-top: 1.25rem;
   border: 1px solid var(--border);
+}
+
+#chartCard {
+  background: radial-gradient(circle at 15% 20%, rgba(255, 214, 102, 0.35), transparent 40%),
+      radial-gradient(circle at 90% 10%, rgba(125, 211, 252, 0.35), transparent 35%),
+      var(--surface);
+  border: 2px solid rgba(90, 103, 216, 0.18);
+  position: relative;
+  overflow: hidden;
+}
+
+#chartCard::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0));
+  pointer-events: none;
 }
 
 .form-grid {
@@ -297,6 +317,43 @@ input[type="color"] {
   color: var(--muted-text);
 }
 
+.print-banner {
+  display: grid;
+  grid-template-columns: 56px 1fr 56px;
+  align-items: center;
+  gap: 0.75rem;
+  background: linear-gradient(90deg, rgba(255, 179, 71, 0.24), rgba(125, 211, 252, 0.24));
+  border: 2px dashed rgba(90, 103, 216, 0.4);
+  border-radius: 14px;
+  padding: 0.6rem 0.9rem;
+  margin-top: 0.75rem;
+}
+
+.print-icon {
+  font-size: 2rem;
+  display: grid;
+  place-items: center;
+}
+
+.print-message {
+  text-align: center;
+}
+
+.print-eyebrow {
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #de7e43;
+  font-weight: 800;
+  font-size: 0.7rem;
+}
+
+.print-headline {
+  margin: 0.1rem 0 0;
+  font-weight: 800;
+  color: #0f172a;
+}
+
 @media (max-width: 900px) {
   .hero {
     grid-template-columns: 1fr;
@@ -309,9 +366,16 @@ input[type="color"] {
 }
 
 @media print {
+  @page {
+    size: A4 landscape;
+    margin: 0.5in;
+  }
+
   body {
-    background: #fff;
-    color: #000;
+    background: radial-gradient(circle at 20% 20%, rgba(255, 214, 102, 0.15), transparent 45%),
+      radial-gradient(circle at 80% 0%, rgba(125, 211, 252, 0.2), transparent 35%),
+      #fff;
+    color: #0f172a;
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
   }
@@ -325,18 +389,24 @@ input[type="color"] {
 
   main {
     margin-top: 0;
+    padding: 0;
+    max-width: none;
+    width: 100%;
   }
 
   #chartCard {
     box-shadow: none;
-    border: 2px solid #000;
+    border: 3px solid rgba(90, 103, 216, 0.55);
+    background: linear-gradient(135deg, rgba(167, 243, 208, 0.28), rgba(125, 211, 252, 0.28)),
+      #fff;
   }
 
   .chart-cell {
-    min-height: 70px;
-    border: 2px solid #000;
-    background: #fff;
+    min-height: 60px;
+    border: 2px solid rgba(90, 103, 216, 0.6);
+    background: #fffdfa;
     color: #000;
+    font-size: 1.4rem;
   }
 
   .chart-cell.filled {
@@ -344,7 +414,26 @@ input[type="color"] {
   }
 
   .task-label {
-    background: transparent;
-    border: 1px solid #000;
+    background: linear-gradient(135deg, rgba(255, 214, 102, 0.4), rgba(167, 243, 208, 0.4));
+    border: 1px solid rgba(90, 103, 216, 0.5);
+    color: #0f172a;
+  }
+
+  .chart-grid {
+    grid-template-columns: repeat(auto-fit, minmax(65px, 1fr)) !important;
+    gap: 0.35rem;
+  }
+
+  .task-labels {
+    gap: 0.35rem;
+  }
+
+  .print-banner {
+    display: grid;
+  }
+
+  .legend {
+    color: #1f2937;
+    font-weight: 700;
   }
 }
