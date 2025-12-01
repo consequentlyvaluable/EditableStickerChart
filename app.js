@@ -67,10 +67,11 @@ function createTaskItem(text = "") {
   node.draggable = true;
 
   node.addEventListener("dragstart", (event) => {
-    if (!event.target.closest(".drag-handle")) {
+    if (node.dataset.dragAllowed !== "true") {
       event.preventDefault();
       return;
     }
+    delete node.dataset.dragAllowed;
     node.classList.add("dragging");
     event.dataTransfer.effectAllowed = "move";
     event.dataTransfer.setData("text/plain", "");
@@ -89,6 +90,19 @@ function createTaskItem(text = "") {
       node.focus();
     }
   });
+
+  handle.addEventListener("pointerdown", () => {
+    node.dataset.dragAllowed = "true";
+  });
+
+  handle.addEventListener("pointerup", () => {
+    delete node.dataset.dragAllowed;
+  });
+
+  handle.addEventListener("pointerleave", () => {
+    delete node.dataset.dragAllowed;
+  });
+
   input.value = text;
   input.addEventListener("input", () => {
     node.dataset.empty = input.value.trim() === "";
