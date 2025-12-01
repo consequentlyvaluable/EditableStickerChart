@@ -194,6 +194,10 @@ input[type="color"] {
   align-items: center;
 }
 
+.task-item.dragging {
+  opacity: 0.65;
+}
+
 .drag-handle {
   cursor: grab;
   color: var(--muted-text);

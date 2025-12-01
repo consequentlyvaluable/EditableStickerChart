@@ -63,6 +63,32 @@ function saveToStorage() {
 function createTaskItem(text = "") {
   const node = taskTemplate.content.firstElementChild.cloneNode(true);
   const input = node.querySelector(".task-input");
+  const handle = node.querySelector(".drag-handle");
+  node.draggable = true;
+
+  node.addEventListener("dragstart", (event) => {
+    if (!event.target.closest(".drag-handle")) {
+      event.preventDefault();
+      return;
+    }
+    node.classList.add("dragging");
+    event.dataTransfer.effectAllowed = "move";
+    event.dataTransfer.setData("text/plain", "");
+  });
+
+  node.addEventListener("dragend", () => {
+    node.classList.remove("dragging");
+    syncTasksFromDOM();
+    renderLabels();
+    saveToStorage();
+  });
+
+  handle.addEventListener("keydown", (event) => {
+    if (event.key === " " || event.key === "Enter") {
+      event.preventDefault();
+      node.focus();
+    }
+  });
   input.value = text;
   input.addEventListener("input", () => {
     node.dataset.empty = input.value.trim() === "";
@@ -208,6 +234,18 @@ function attachEvents() {
     taskList.appendChild(createTaskItem(""));
   });
 
+  taskList.addEventListener("dragover", (event) => {
+    const dragged = taskList.querySelector(".task-item.dragging");
+    if (!dragged) return;
+    event.preventDefault();
+    const afterElement = getDragAfterElement(taskList, event.clientY);
+    if (afterElement === null) {
+      taskList.appendChild(dragged);
+    } else {
+      taskList.insertBefore(dragged, afterElement);
+    }
+  });
+
   taskList.addEventListener("blur", (event) => {
     if (event.target.classList.contains("task-input")) {
       syncTasksFromDOM();
@@ -223,6 +261,21 @@ function attachEvents() {
   });
 
   printBtn.addEventListener("click", () => window.print());
+}
+
+function getDragAfterElement(container, y) {
+  const siblings = [...container.querySelectorAll(".task-item:not(.dragging)")];
+  return siblings.reduce(
+    (closest, child) => {
+      const box = child.getBoundingClientRect();
+      const offset = y - box.top - box.height / 2;
+      if (offset < 0 && offset > closest.offset) {
+        return { offset, element: child };
+      }
+      return closest;
+    },
+    { offset: Number.NEGATIVE_INFINITY, element: null }
+  ).element;
 }
 
 function clampNumber(value, min, max) {
