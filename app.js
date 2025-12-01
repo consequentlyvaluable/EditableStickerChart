@@ -120,7 +120,8 @@ function createTaskItem(text = "") {
   input.addEventListener("input", () => {
     node.dataset.empty = input.value.trim() === "";
     syncTasksFromDOM();
-    render();
+    renderLabels();
+    saveToStorage();
   });
   node.querySelector(".remove-task").addEventListener("click", () => {
     node.remove();
